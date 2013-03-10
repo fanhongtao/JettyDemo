@@ -28,6 +28,21 @@ public class UploadFileServlet extends HttpServlet {
 
     private static final String TAG = "UploadFileServlet";
 
+    /** Default path to save uploaded files */
+    private String uploadPath;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        uploadPath = getServletContext().getRealPath("/upload");
+        Log.i(TAG, "Upload dir: " + uploadPath);
+        try {
+            FileUtils.forceMkdir(new File(uploadPath));
+        } catch (IOException e) {
+            throw new ServletException(e);
+        }
+    }
+
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);
@@ -43,10 +58,7 @@ public class UploadFileServlet extends HttpServlet {
             return;
         }
 
-        String dirPath = req.getSession().getServletContext().getRealPath("/upload");
-        FileUtils.forceMkdir(new File(dirPath));
-
-        File file = new File(dirPath + "/" + fileName);
+        File file = new File(uploadPath + "/" + fileName);
         Log.i(TAG, "File: " + file.getAbsolutePath());
         OutputStream output = null;
         try {
