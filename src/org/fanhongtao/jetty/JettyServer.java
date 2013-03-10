@@ -15,6 +15,7 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.fanhongtao.jetty.servlet.HelloServlet;
 import org.fanhongtao.jetty.servlet.NotImplementedServlet;
+import org.fanhongtao.jetty.servlet.ServletInfoServlet;
 import org.fanhongtao.jetty.servlet.UploadFileServlet;
 
 import android.util.Log;
@@ -55,6 +56,7 @@ public class JettyServer {
         servletContextHandler.setResourceBase(mResourceBase);
         servletContextHandler.addServlet(HelloServlet.class, "/hello");
         servletContextHandler.addServlet(UploadFileServlet.class, "/upload");
+        servletContextHandler.addServlet(ServletInfoServlet.class, "/servlet/*");
         servletContextHandler.addServlet(NotImplementedServlet.class, "/*");
 
         HandlerList handlerList = new HandlerList();
