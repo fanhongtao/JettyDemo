@@ -58,7 +58,7 @@ public class UploadFileServlet extends HttpServlet {
             return;
         }
 
-        File file = new File(uploadPath + "/" + fileName);
+        File file = new File(uploadPath, fileName);
         Log.i(TAG, "File: " + file.getAbsolutePath());
         OutputStream output = null;
         try {

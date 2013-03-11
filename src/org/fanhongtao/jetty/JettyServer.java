@@ -13,6 +13,7 @@ import org.eclipse.jetty.server.bio.SocketConnector;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.fanhongtao.jetty.servlet.DownloadFileServlet;
 import org.fanhongtao.jetty.servlet.HelloServlet;
 import org.fanhongtao.jetty.servlet.NotImplementedServlet;
 import org.fanhongtao.jetty.servlet.ServletInfoServlet;
@@ -56,11 +57,12 @@ public class JettyServer {
         servletContextHandler.setResourceBase(mResourceBase);
         servletContextHandler.addServlet(HelloServlet.class, "/hello");
         servletContextHandler.addServlet(UploadFileServlet.class, "/upload");
+        servletContextHandler.addServlet(DownloadFileServlet.class, "/download");
         servletContextHandler.addServlet(ServletInfoServlet.class, "/servlet/*");
         servletContextHandler.addServlet(NotImplementedServlet.class, "/*");
 
         HandlerList handlerList = new HandlerList();
-        handlerList.setHandlers(new Handler[] { resHandler, servletContextHandler });
+        handlerList.setHandlers(new Handler[] { servletContextHandler, resHandler});
         server.setHandler(handlerList);
         server.setStopAtShutdown(true);
         server.start();
