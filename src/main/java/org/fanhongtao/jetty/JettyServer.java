@@ -13,7 +13,10 @@ import org.eclipse.jetty.server.bio.SocketConnector;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.servlets.MultiPartFilter;
 import org.fanhongtao.jetty.servlet.DownloadFileServlet;
+import org.fanhongtao.jetty.servlet.FormUploadServlet;
 import org.fanhongtao.jetty.servlet.HelloServlet;
 import org.fanhongtao.jetty.servlet.NotImplementedServlet;
 import org.fanhongtao.jetty.servlet.ServletInfoServlet;
@@ -59,10 +62,14 @@ public class JettyServer {
         servletContextHandler.addServlet(UploadFileServlet.class, "/upload");
         servletContextHandler.addServlet(DownloadFileServlet.class, "/download");
         servletContextHandler.addServlet(ServletInfoServlet.class, "/servlet/*");
-        servletContextHandler.addServlet(NotImplementedServlet.class, "/*");
+        servletContextHandler.addServlet(FormUploadServlet.class, "/formUpload");
+        servletContextHandler.addFilter(MultiPartFilter.class, "/formUpload", 0);
+
+        ServletHandler notImplementedHandler = new ServletHandler();
+        notImplementedHandler.addServletWithMapping(NotImplementedServlet.class, "/*");
 
         HandlerList handlerList = new HandlerList();
-        handlerList.setHandlers(new Handler[] { servletContextHandler, resHandler});
+        handlerList.setHandlers(new Handler[] { servletContextHandler, resHandler, notImplementedHandler });
         server.setHandler(handlerList);
         server.setStopAtShutdown(true);
         server.start();
