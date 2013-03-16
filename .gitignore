@@ -1,4 +1,7 @@
 .metadata/
+.settings/
 bin/
 web/
-
+target/
+.classpath
+.project
